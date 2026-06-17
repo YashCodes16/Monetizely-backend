@@ -18,6 +18,11 @@ async function connectDB() {
 }
 
 module.exports = async (req, res) => {
-    await connectDB()
+    try {
+        await connectDB()
+    } catch (err) {
+        res.status(500).json({ error: 'DB connection failed', message: err.message })
+        return
+    }
     app(req, res)
 }

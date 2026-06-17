@@ -21,9 +21,8 @@ app.get('/', (req, res) => {
     const uri = process.env.MONGODB_URI
     res.json({
         status: 'ok',
-        db: stateMap[dbState] || 'unknown',
-        dbUri: uri ? uri.replace(/\/\/[^@]+@/, '//<credentials>@') : 'not set',
-    })
+        db: stateMap[dbState] || 'unknown'
+        })
 })
 
 app.use('/api/products', productRoutes)
