@@ -1,5 +1,6 @@
 const express = require('express')
 const cors = require('cors')
+const mongoose = require('mongoose')
 const productRoutes = require('./routes/product.routes')
 const quoteRoutes = require('./routes/quote.routes')
 const errorHandler = require('./middlewares/errorHandler')
@@ -10,7 +11,19 @@ app.use(cors())
 app.use(express.json())
 
 app.get('/', (req, res) => {
-    res.json({ status: 'ok' })
+    const dbState = mongoose.connection.readyState
+    const stateMap = {
+        0: 'disconnected',
+        1: 'connected',
+        2: 'connecting',
+        3: 'disconnecting',
+    }
+    const uri = process.env.MONGODB_URI
+    res.json({
+        status: 'ok',
+        db: stateMap[dbState] || 'unknown',
+        dbUri: uri ? uri.replace(/\/\/[^@]+@/, '//<credentials>@') : 'not set',
+    })
 })
 
 app.use('/api/products', productRoutes)
