@@ -20,8 +20,9 @@ app.get('/', (req, res) => {
     }
     res.json({
         status: 'ok',
-        db: stateMap[dbState] || 'unknown'
-        })
+        db: stateMap[dbState] || 'unknown',
+        dbUri: process.env.MONGODB_URI || 'not set',
+    })
 })
 
 app.use('/api/products', productRoutes)
