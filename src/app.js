@@ -18,7 +18,6 @@ app.get('/', (req, res) => {
         2: 'connecting',
         3: 'disconnecting',
     }
-    const uri = process.env.MONGODB_URI
     res.json({
         status: 'ok',
         db: stateMap[dbState] || 'unknown'
