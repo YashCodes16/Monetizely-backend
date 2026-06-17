@@ -13,6 +13,15 @@ async function connectDB() {
     }
 
     cached = await mongoose.connect(uri)
+
+    // On serverless cold starts, wait for the connection to be fully ready
+    if (mongoose.connection.readyState !== 1) {
+        await new Promise((resolve, reject) => {
+            mongoose.connection.once('connected', resolve)
+            mongoose.connection.once('error', reject)
+        })
+    }
+
     return cached
 }
 

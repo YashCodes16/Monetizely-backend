@@ -18,10 +18,13 @@ app.get('/', (req, res) => {
         2: 'connecting',
         3: 'disconnecting',
     }
+    const uri = process.env.MONGODB_URI || ''
+    const maskedUri = uri.replace(/:([^@]+)@/, ':***@')
+
     res.json({
         status: 'ok',
         db: stateMap[dbState] || 'unknown',
-        dbUri: process.env.MONGODB_URI || 'not set',
+        dbUri: maskedUri || 'not set',
     })
 })
 
