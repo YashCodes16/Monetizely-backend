@@ -19,13 +19,11 @@ app.get('/', (req, res) => {
         3: 'disconnecting',
     }
     const uri = process.env.MONGODB_URI || ''
-    const maskedUri = uri.replace(/:([^@]+)@/, ':***@')
 
     res.json({
         status: 'ok',
-        db: stateMap[dbState] || 'unknown',
-        dbUri: maskedUri || 'not set',
-    })
+        db: stateMap[dbState] || 'unknown'
+        })
 })
 
 app.use('/api/products', productRoutes)
